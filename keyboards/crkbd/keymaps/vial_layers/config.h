@@ -4,10 +4,13 @@
 #define VIAL_UNLOCK_COMBO_ROWS {0, 0}
 #define VIAL_UNLOCK_COMBO_COLS {0, 1}
 
+#undef DYNAMIC_KEYMAP_LAYER_COUNT
+#define DYNAMIC_KEYMAP_LAYER_COUNT 8
+
 /* Sync active layer to the other half so both sides change color together. */
 #define SPLIT_LAYER_STATE_ENABLE
 
-/* Persist layer 1-4 HSV in user EEPROM datablock. */
+/* Persist layer 1-7 HSV in user EEPROM datablock. */
 #define EECONFIG_USER_DATA_SIZE 32
 
 /* Sync layer RGB config master -> slave. */

@@ -10,9 +10,9 @@
 #define LAYER_RGB_HID_SAVE 0x03
 #define LAYER_RGB_HID_LOAD 0x04
 
-/* Configurable solid colors for layers 1..4 (layer 0 stays on Vial Lighting). */
+/* Configurable solid colors for layers 1..7 (layer 0 stays on Vial Lighting). */
 #define LAYER_RGB_FIRST 1
-#define LAYER_RGB_LAST 4
+#define LAYER_RGB_LAST 7
 #define LAYER_RGB_SLOTS (LAYER_RGB_LAST - LAYER_RGB_FIRST + 1)
 
 void layer_rgb_init(void);

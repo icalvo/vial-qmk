@@ -10,7 +10,7 @@
 #include "via.h"
 
 #define LAYER_RGB_MAGIC 0x4C /* 'L' */
-#define LAYER_RGB_VERSION 1
+#define LAYER_RGB_VERSION 2
 
 typedef struct __attribute__((packed)) {
     uint8_t magic;
@@ -18,12 +18,17 @@ typedef struct __attribute__((packed)) {
     HSV     slots[LAYER_RGB_SLOTS]; /* index 0 => layer 1, ... */
 } layer_rgb_config_t;
 
+_Static_assert(sizeof(layer_rgb_config_t) <= EECONFIG_USER_DATA_SIZE, "layer RGB EEPROM block too large");
+
 static layer_rgb_config_t g_layer_rgb;
 static const HSV          k_defaults[LAYER_RGB_SLOTS] = {
-    {HSV_GREEN},
-    {HSV_ORANGE},
-    {HSV_WHITE},
-    {HSV_BLUE},
+    {HSV_GREEN},  /* 1 Lower */
+    {HSV_ORANGE}, /* 2 Raise */
+    {HSV_WHITE},  /* 3 Adjust */
+    {HSV_BLUE},   /* 4 */
+    {HSV_CYAN},   /* 5 */
+    {HSV_MAGENTA},/* 6 */
+    {HSV_YELLOW}, /* 7 */
 };
 
 static bool layer_in_range(uint8_t layer) {
