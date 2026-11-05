@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 
+#include "layer_rgb.h"
 
 #ifdef LAYOUT_split_3x6_3_ex2
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -114,49 +115,16 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
-/* Per-layer solid RGB colors.
- * Edit the HSV_* macros below, then rebuild and flash both halves.
- * Mapping:
- *   0 Base   -> Vial Lighting (EEPROM)
- *   1 Lower  -> HSV_GREEN
- *   2 Raise  -> HSV_ORANGE
- *   3 Adjust -> HSV_WHITE
- *   4        -> HSV_BLUE
- *   other    -> HSV_PURPLE
+/* Per-layer solid RGB: layer 0 uses Vial Lighting; layers 1-4 use EEPROM
+ * colors (defaults green/orange/white/blue). Configure without reflashing
+ * via tools/layer_rgb_tool.py over raw HID (cmd 0xFC).
  */
-static void set_layer_rgb(uint8_t layer) {
-    switch (layer) {
-        case 0:
-            rgb_matrix_reload_from_eeprom();
-            break;
-        case 1:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-            break;
-        case 2:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-            rgb_matrix_sethsv_noeeprom(HSV_ORANGE);
-            break;
-        case 3:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-            rgb_matrix_sethsv_noeeprom(HSV_WHITE);
-            break;
-        case 4:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-            rgb_matrix_sethsv_noeeprom(HSV_BLUE);
-            break;
-        default:
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-            rgb_matrix_sethsv_noeeprom(HSV_PURPLE);
-            break;
-    }
-}
-
 layer_state_t layer_state_set_user(layer_state_t state) {
-    set_layer_rgb(get_highest_layer(state));
+    layer_rgb_apply(get_highest_layer(state));
     return state;
 }
 
 void keyboard_post_init_user(void) {
-    set_layer_rgb(get_highest_layer(layer_state | default_layer_state));
+    layer_rgb_init();
+    layer_rgb_apply(get_highest_layer(layer_state | default_layer_state));
 }

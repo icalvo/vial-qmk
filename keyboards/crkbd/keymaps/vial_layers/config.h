@@ -6,3 +6,9 @@
 
 /* Sync active layer to the other half so both sides change color together. */
 #define SPLIT_LAYER_STATE_ENABLE
+
+/* Persist layer 1-4 HSV in user EEPROM datablock. */
+#define EECONFIG_USER_DATA_SIZE 32
+
+/* Sync layer RGB config master -> slave. */
+#define SPLIT_TRANSACTION_IDS_USER LAYER_RGB_SYNC
